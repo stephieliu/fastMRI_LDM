@@ -19,7 +19,7 @@ import tempfile
 import matplotlib.pyplot as plt
 import torch
 import torch.nn.functional as F
-from monai import transforms
+# from monai import transforms
 # from monai.apps import DecathlonDataset
 from monai.config import print_config
 # from monai.data import DataLoader
@@ -36,6 +36,8 @@ from matplotlib import pyplot as plt
 
 import fastmri
 from fastmri.data import transforms as T
+from fastmri.data import mri_data
+
 
 from torch.utils.data import random_split, DataLoader, Dataset, Subset
 
@@ -60,8 +62,8 @@ set_determinism(42)
 
 
 # setup a data directory and download dataset
-directory = 'fastMRIData'
-root_dir = tempfile.mkdtemp() if directory is None else directory
+directory = 'fastMRIData/multicoil_train'
+root_dir = directory
 print(root_dir)
 
 
@@ -71,37 +73,42 @@ batch_size = 2
 channel = 0  # 0 = Flair
 assert channel in [0, 1, 2, 3], "Choose a valid channel"
 
-train_ds = generateFastMRIImages('project/fastMRIData/multicoil_train', 'project/fastMRIData/multicoil_train_slices')
+# train_ds = generateFastMRIImages('project/fastMRIData/multicoil_train', 'project/fastMRIData/multicoil_train_slices')
 
 
-# train_transforms = transforms.Compose(
-#     [
-#         transforms.LoadImaged(keys=["image"]),
-#         transforms.EnsureChannelFirstd(keys=["image"]),
-#         transforms.Lambdad(keys="image", func=lambda x: x[channel, :, :, :]),
-#         transforms.EnsureChannelFirstd(keys=["image"], channel_dim="no_channel"),
-#         transforms.EnsureTyped(keys=["image"]),
-#         transforms.Orientationd(keys=["image"], axcodes="RAS"),
-#         transforms.Spacingd(keys=["image"], pixdim=(2.4, 2.4, 2.2), mode=("bilinear")),
-#         transforms.CenterSpatialCropd(keys=["image"], roi_size=(96, 96, 64)),
-#         transforms.ScaleIntensityRangePercentilesd(keys="image", lower=0, upper=99.5, b_min=0, b_max=1),
-#     ]
-# )
-# train_ds = DecathlonDataset(
-#     root_dir=root_dir,
-#     task="Task01_BrainTumour",
-#     section="training",  # validation
-#     cache_rate=1.0,  # you may need a few Gb of RAM... Set to 0 otherwise
-#     num_workers=8,
-#     download=False,  # Set download to True if the dataset hasnt been downloaded yet
-#     seed=0,
-#     transform=train_transforms,
-# )
-# train_loader = DataLoader(train_ds, batch_size=batch_size, shuffle=True, num_workers=8, persistent_workers=True)
-# print(f'Image shape {train_ds[0]["image"].shape}')
+train_transforms = mri_data.CombinedSliceDataset(
+    [
+        
 
+        transforms.LoadImaged(keys=["image"]),
+        transforms.EnsureChannelFirstd(keys=["image"]),
+        transforms.Lambdad(keys="image", func=lambda x: x[channel, :, :, :]),
+        transforms.EnsureChannelFirstd(keys=["image"], channel_dim="no_channel"),
+        transforms.EnsureTyped(keys=["image"]),
+        transforms.Orientationd(keys=["image"], axcodes="RAS"),
+        transforms.Spacingd(keys=["image"], pixdim=(2.4, 2.4, 2.2), mode=("bilinear")),
+        transforms.CenterSpatialCropd(keys=["image"], roi_size=(96, 96, 64)),
+        transforms.ScaleIntensityRangePercentilesd(keys="image", lower=0, upper=99.5, b_min=0, b_max=1),
+    ]
+)
+train_ds = mri_data.CombinedSliceDataset(
+    roots = root_dir,
+    challenges = "multicoil",
+    transforms = train_transforms,
+    use_dataset_cache = true,
+
+    # section="training",  # validation
+    # cache_rate=1.0,  # you may need a few Gb of RAM... Set to 0 otherwise
+    # num_workers=8,
+    # download=False,  # Set download to True if the dataset hasnt been downloaded yet
+    # seed=0,
+    # transform=train_transforms,
+)
 train_loader = DataLoader(train_ds, batch_size=batch_size, shuffle=True, num_workers=8, persistent_workers=True)
 print(f'Image shape {train_ds[0]["image"].shape}')
+
+# train_loader = DataLoader(train_ds, batch_size=batch_size, shuffle=True, num_workers=8, persistent_workers=True)
+# print(f'Image shape {train_ds[0]["image"].shape}')
 
 
 # Visualise examples from the training set
