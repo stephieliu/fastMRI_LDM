@@ -75,35 +75,37 @@ assert channel in [0, 1, 2, 3], "Choose a valid channel"
 
 # train_ds = generateFastMRIImages('project/fastMRIData/multicoil_train', 'project/fastMRIData/multicoil_train_slices')
 
+# apply data_transform method to turn fastmri k-space data into required format (images)
+def data_transform(kspace, mask, target, data_attributes, filename, slice_num):
+    # Transform the data into appropriate format
+    kspace = transforms.to_tensor(kspace)
+    slice_image = fastmri.ifft2c(kspace)           # Apply Inverse Fourier Transform to get the complex image
+    slice_image_abs = fastmri.complex_abs(slice_image)   # Compute absolute value to get a real image
+    slice_image_rss = fastmri.rss(slice_image_abs, dim=0) # apply RSS to combine coils
+    return slice_image_rss
 
-train_transforms = mri_data.CombinedSliceDataset(
-    [
-        
+# # monai transform method
+# train_transforms = (
+#     [
+#         transforms.LoadImaged(keys=["image"]),
+#         transforms.EnsureChannelFirstd(keys=["image"]),
+#         transforms.Lambdad(keys="image", func=lambda x: x[channel, :, :, :]),
+#         transforms.EnsureChannelFirstd(keys=["image"], channel_dim="no_channel"),
+#         transforms.EnsureTyped(keys=["image"]),
+#         transforms.Orientationd(keys=["image"], axcodes="RAS"),
+#         transforms.Spacingd(keys=["image"], pixdim=(2.4, 2.4, 2.2), mode=("bilinear")),
+#         transforms.CenterSpatialCropd(keys=["image"], roi_size=(96, 96, 64)),
+#         transforms.ScaleIntensityRangePercentilesd(keys="image", lower=0, upper=99.5, b_min=0, b_max=1),
+#     ]
+# )
 
-        transforms.LoadImaged(keys=["image"]),
-        transforms.EnsureChannelFirstd(keys=["image"]),
-        transforms.Lambdad(keys="image", func=lambda x: x[channel, :, :, :]),
-        transforms.EnsureChannelFirstd(keys=["image"], channel_dim="no_channel"),
-        transforms.EnsureTyped(keys=["image"]),
-        transforms.Orientationd(keys=["image"], axcodes="RAS"),
-        transforms.Spacingd(keys=["image"], pixdim=(2.4, 2.4, 2.2), mode=("bilinear")),
-        transforms.CenterSpatialCropd(keys=["image"], roi_size=(96, 96, 64)),
-        transforms.ScaleIntensityRangePercentilesd(keys="image", lower=0, upper=99.5, b_min=0, b_max=1),
-    ]
-)
-train_ds = mri_data.CombinedSliceDataset(
-    roots = root_dir,
-    challenges = "multicoil",
-    transforms = train_transforms,
+train_ds = mri_data.SliceDataset(
+    root = root_dir,
+    challenges = 'multicoil',
+    transforms = data_transform,
     use_dataset_cache = true,
-
-    # section="training",  # validation
-    # cache_rate=1.0,  # you may need a few Gb of RAM... Set to 0 otherwise
-    # num_workers=8,
-    # download=False,  # Set download to True if the dataset hasnt been downloaded yet
-    # seed=0,
-    # transform=train_transforms,
 )
+
 train_loader = DataLoader(train_ds, batch_size=batch_size, shuffle=True, num_workers=8, persistent_workers=True)
 print(f'Image shape {train_ds[0]["image"].shape}')
 
