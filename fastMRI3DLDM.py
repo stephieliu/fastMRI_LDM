@@ -62,7 +62,7 @@ set_determinism(42)
 
 
 # setup a data directory and download dataset
-directory = 'fastMRIData/multicoil_train'
+directory = '../mchiew/data/multicoil_train'
 root_dir = directory
 print(root_dir)
 
@@ -101,11 +101,12 @@ def data_transform(kspace, mask, target, data_attributes, filename, slice_num):
 
 train_ds = mri_data.SliceDataset(
     root = root_dir,
-    challenges = 'multicoil',
-    transforms = data_transform,
-    use_dataset_cache = true,
+    challenge = 'multicoil',
+    transform = data_transform,
+    # use_dataset_cache = true,
 )
 
+# need to modify this after train_ds is working
 train_loader = DataLoader(train_ds, batch_size=batch_size, shuffle=True, num_workers=8, persistent_workers=True)
 print(f'Image shape {train_ds[0]["image"].shape}')
 
