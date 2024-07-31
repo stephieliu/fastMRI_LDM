@@ -19,8 +19,8 @@ import tempfile
 import matplotlib.pyplot as plt
 import torch
 import torch.nn.functional as F
-# from monai import transforms
-# from monai.apps import DecathlonDataset
+from monai import transforms
+from monai.apps import DecathlonDataset
 from monai.config import print_config
 # from monai.data import DataLoader
 from monai.utils import first, set_determinism
@@ -78,7 +78,7 @@ assert channel in [0, 1, 2, 3], "Choose a valid channel"
 # apply data_transform method to turn fastmri k-space data into required format (images)
 def data_transform(kspace, mask, target, data_attributes, filename, slice_num):
     # Transform the data into appropriate format
-    kspace = transforms.to_tensor(kspace)
+    kspace = T.to_tensor(kspace)
     slice_image = fastmri.ifft2c(kspace)           # Apply Inverse Fourier Transform to get the complex image
     slice_image_abs = fastmri.complex_abs(slice_image)   # Compute absolute value to get a real image
     slice_image_rss = fastmri.rss(slice_image_abs, dim=0) # apply RSS to combine coils
