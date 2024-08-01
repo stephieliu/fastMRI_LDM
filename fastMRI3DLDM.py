@@ -62,7 +62,7 @@ set_determinism(42)
 
 
 # setup a data directory and download dataset
-directory = '../mchiew/data/multicoil_train'
+directory = '../kadotab/Datasets/16_chans/train'
 root_dir = directory
 print(root_dir)
 
@@ -108,7 +108,7 @@ train_ds = mri_data.SliceDataset(
 
 # need to modify this after train_ds is working
 train_loader = DataLoader(train_ds, batch_size=batch_size, shuffle=True, num_workers=8, persistent_workers=True)
-print(f'Image shape {train_ds[0]["image"].shape}')
+# print(f'Image shape {train_ds[0]["image"].shape}')
 
 # train_loader = DataLoader(train_ds, batch_size=batch_size, shuffle=True, num_workers=8, persistent_workers=True)
 # print(f'Image shape {train_ds[0]["image"].shape}')
