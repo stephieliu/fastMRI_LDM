@@ -6,11 +6,11 @@ This project aims to synthesize complex multi-coil raw brain MRI/k-space data sy
 - "archived" contains draft code snippets sourced from various open-source LDM projects that are organized to reference efficiently if needed
 - "testing&learning" contains code for testing and debugging subtasks (i.e. PyTorch tensor shapes)
 
-#### Acknowledgements
+## Acknowledgements
 This project is supervised and was initially proposed by Dr. Mark Chiew, as part of my time as a 2024 summer research student for the Sunnybrook Health Sciences Centre.
 Thank you to Dr. Chiew and the Chiew Lab group for always being supportive!
 
-#### References
+## References
 Brownlee, J. (2019, August 29). How to Implement the Frechet Inception Distance (FID) for Evaluating GANs. Machine Learning Mastery. https://machinelearningmastery.com/how-to-implement-the-frechet-inception-distance-fid-from-scratch/
 
 Elster, A. D. (n.d.). k-space. Questions and Answers ​in MRI. https://mriquestions.com/what-is-k-space.html
