@@ -4,7 +4,7 @@ This project aims to synthesize complex multi-coil raw brain MRI/k-space data sy
 
 - "active" contains all of the main code [in progress]
 - "archived" contains draft code snippets sourced from various open-source LDM projects that are organized to reference efficiently if needed
-- "testing&learning" contains code for testing and debugging subtasks (i.e. PyTorch tensor shapes)
+- "testing&learning" contains code for testing and debugging subtasks
 
 ## Acknowledgements
 This project is supervised and was initially proposed by Dr. Mark Chiew, as part of my time as a 2024 summer research student for the Sunnybrook Health Sciences Centre.
