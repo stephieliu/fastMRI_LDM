@@ -23,6 +23,8 @@ Project MONAI. (2016). MONAI Model Zoo. Monai.io. https://monai.io/model-zoo.htm
 
 Project MONAI. (2022). brats_mri_generative_diffusion. GitHub. https://github.com/Project-MONAI/model-zoo/blob/dev/models/brats_mri_generative_diffusion
 
+Project MONAI. (2022). 3D Latent Diffusion Model. GitHub. https://github.com/Project-MONAI/GenerativeModels/blob/main/tutorials/generative/3d_ldm/3d_ldm_tutorial.ipynb
+
 Rombach, R., Blattmann, A., Lorenz, D., Esser, P., & Ommer, B. (2022). High-Resolution Image Synthesis with Latent Diffusion Models. https://arxiv.org/pdf/2112.10752
 
 Weng, L. (2021, July 11). What are Diffusion Models? Github.io; Lil’Log. https://lilianweng.github.io/posts/2021-07-11-diffusion-models/#parameterization-of-l_t-for-training-loss
