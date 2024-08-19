@@ -18,6 +18,8 @@ Elster, A. D. (n.d.). k-space. Questions and Answers ​in MRI. https://mriquest
 NYU Langone Health. (2019). fastMRI Dataset. Nyu.edu. https://fastmri.med.nyu.edu/
 
 Pandey, P. (2021, July 7). A Complete Guide for using Compute Canada for Deep Learning! Gitlab.io; Mind Crumbs. https://prashp.gitlab.io/post/compute-canada-tut/
+
+Pinaya, W. H. L., Graham, M. S., Kerfoot, E., Tudosiu, P.-D., Dafflon, J., Fernandez, V., Sanchez, P., Wolleb, J., da Costa, P. F., Patel, A., Chung, H., Zhao, C., Peng, W., Liu, Z., Mei, X., Lucena, O., Ye, J. C., Tsaftaris, S. A., Dogra, P., & Feng, A. (2023, July 27). Generative AI for Medical Imaging: extending the MONAI Framework. ArXiv.org. https://doi.org/10.48550/arXiv.2307.15208
  
 Project MONAI. (2016). MONAI Model Zoo. Monai.io. https://monai.io/model-zoo.html
 
